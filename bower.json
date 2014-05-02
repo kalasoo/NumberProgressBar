@@ -1,0 +1,23 @@
+{
+  "name": "number-pb",
+  "version": "0.0.0",
+  "homepage": "http://kalasoo.me",
+  "authors": [
+    "kalasoo"
+  ],
+  "description": "A lovely progressbar",
+  "main": "number-pb.js",
+  "keywords": [
+    "progressbar",
+    "jquery",
+    "velocity"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}
