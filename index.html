@@ -26,10 +26,10 @@
 
   <section>
     <div class="reach empty">0</div>
-    <div class="reach plus-10">+ 10</div>
-    <div class="reach plus-30">+ 30</div>
     <div class="reach minus-10">- 10</div>
     <div class="reach minus-30">- 30</div>
+    <div class="reach plus-10">+ 10</div>
+    <div class="reach plus-30">+ 30</div>
     <div class="reach full">100</div>
   </section>
 
@@ -52,10 +52,10 @@
     });
     
     $('.reach.empty'   ).click(function() { animate(0)       ; })
-    $('.reach.plus-10 ').click(function() { animate(num + 10); })
-    $('.reach.plus-30 ').click(function() { animate(num + 30); })
     $('.reach.minus-10').click(function() { animate(num - 10); })
     $('.reach.minus-30').click(function() { animate(num - 30); })
+    $('.reach.plus-10 ').click(function() { animate(num + 10); })
+    $('.reach.plus-30 ').click(function() { animate(num + 30); })
     $('.reach.full'    ).click(function() { animate(100)     ; })
 
     function animate(val) {
