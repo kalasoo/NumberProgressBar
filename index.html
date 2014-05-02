@@ -14,8 +14,8 @@
 
   <section>
 
-    <article>
-      <h4 class="title">Sample 1</h4>
+    <article id="sample-pb">
+      <h4 class="title"></h4>
       <div class="number-pb">
         <div class="number-pb-shown"></div>
         <div class="number-pb-num">0%</div>
@@ -25,10 +25,12 @@
   </section>
 
   <section>
+    <div class="reach empty">0</div>
     <div class="reach plus-10">+ 10</div>
     <div class="reach plus-30">+ 30</div>
     <div class="reach minus-10">- 10</div>
     <div class="reach minus-30">- 30</div>
+    <div class="reach full">100</div>
   </section>
 
   <p><a href="http://kalasoo.me">Ming YIN</a></p>
@@ -43,14 +45,18 @@
 <script>
   $(function() {
     var num = Math.floor(Math.random() * 100);
+    var title = $('#sample-pb .title').text('@' + num);
     var bars = $('.number-pb').NumberProgressBar({
       duration: 5000,
       percentage: num
     });
+    
+    $('.reach.empty'   ).click(function() { animate(0)       ; })
     $('.reach.plus-10 ').click(function() { animate(num + 10); })
     $('.reach.plus-30 ').click(function() { animate(num + 30); })
     $('.reach.minus-10').click(function() { animate(num - 10); })
     $('.reach.minus-30').click(function() { animate(num - 30); })
+    $('.reach.full'    ).click(function() { animate(100)     ; })
 
     function animate(val) {
       if (val < 0) {
@@ -61,6 +67,7 @@
         num = val
       }
       bars.reach(num);
+      title.text('@' + num);
     }
   });
 </script>
