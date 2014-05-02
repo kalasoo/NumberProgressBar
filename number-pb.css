@@ -1,0 +1,21 @@
+.number-pb {
+  position: relative;
+  height: 3px;
+  background-color: #ddd;
+}
+
+.number-pb .number-pb-shown {
+  position: absolute;
+  background-color: #176785;
+  top: -1px;
+  left: 0;
+  height: 5px;
+}
+
+.number-pb .number-pb-num {
+  position: absolute;
+  background-color: #fff;
+  left: 0;
+  top: -0.45em;
+  padding: 0 0.3em; 
+}
