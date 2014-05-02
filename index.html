@@ -24,6 +24,13 @@
 
   </section>
 
+  <section>
+    <div class="reach plus-10">+ 10</div>
+    <div class="reach plus-30">+ 30</div>
+    <div class="reach minus-10">- 10</div>
+    <div class="reach minus-30">- 30</div>
+  </section>
+
   <p><a href="http://kalasoo.me">Ming YIN</a></p>
   <p><a href="https://github.com/daimajia/NumberProgressBar">This idea</a> was originally designed by <a href="http://daimajia.com">Daimajia</a> on Andriod.</p>
 </div>
@@ -34,9 +41,27 @@
 <script src="bower_components/Velocity.js/jquery.velocity.js"></script>
 <script src="number-pb.js"></script>
 <script>
-  var bars = $('.number-pb').NumberProgressBar();
   $(function() {
+    var num = Math.floor(Math.random() * 100);
+    var bars = $('.number-pb').NumberProgressBar({
+      duration: 5000,
+      percentage: num
+    });
+    $('.reach.plus-10 ').click(function() { animate(num + 10); })
+    $('.reach.plus-30 ').click(function() { animate(num + 30); })
+    $('.reach.minus-10').click(function() { animate(num - 10); })
+    $('.reach.minus-30').click(function() { animate(num - 30); })
 
+    function animate(val) {
+      if (val < 0) {
+        num = 0;
+      } else if (val > 100) {
+        num = 100;
+      } else {
+        num = val
+      }
+      bars.reach(num);
+    }
   });
 </script>
 </body>

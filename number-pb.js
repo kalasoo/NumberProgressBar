@@ -13,13 +13,21 @@
     this.width = this.$element.width();
     this.$shownBar = this.$element.find(settings.shownQuery);
     this.$num = this.$element.find(settings.numQuery);
+
+    this.reach(this.percentage);
   }
 
   NumberProgressBar.prototype.reach = function(percentage) {
+    if (percentage < 0) {
+      this.percentage = 0;
+    } else if (percentage > 100) {
+      this.percentage = 100;
+    } else {
       this.percentage = percentage;
-      console.log('reach: ', this.percentage);
-      this.moveShown();
-      this.moveNum();
+    }
+    console.log('reach: ', this.percentage);
+    this.moveShown();
+    this.moveNum();
   }
 
   NumberProgressBar.prototype.moveShown = function() {
