@@ -18,7 +18,6 @@
       <h4 class="title">jQuery</h4>
       <div class="number-pb">
         <div class="number-pb-shown"></div>
-        <div class="number-pb-hidden"></div>
         <div class="number-pb-num">0 %</div>
       </div>
     </article>
@@ -27,7 +26,6 @@
       <h4 class="title">jQuery <a href="http://julian.com/research/velocity/">Velocity</a></h4>
       <div class="number-pb">
         <div class="number-pb-shown"></div>
-        <div class="number-pb-hidden"></div>
         <div class="number-pb-num">0 %</div>
       </div>
     </article>
@@ -36,7 +34,6 @@
       <h4 class="title">CSS Transition</h4>
       <div class="number-pb">
         <div class="number-pb-shown"></div>
-        <div class="number-pb-hidden"></div>
         <div class="number-pb-num">0 %</div>
       </div>
     </article>
@@ -52,5 +49,12 @@
 <script src="bower_components/jquery/dist/jquery.js"></script>
 <script src="bower_components/Velocity.js/jquery.velocity.js"></script>
 <script src="number-pb.js"></script>
+<script>
+var bars = $('.number-pb').NumberProgressBar();
+bars.data('number-pb').reach(100);
+  $(function() {
+
+  });
+</script>
 </body>
 </html>
