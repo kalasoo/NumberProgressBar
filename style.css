@@ -57,6 +57,6 @@ article .title {
 
 @media (max-width: 960px) {
   .container {
-    width: 100%;
+    width: 90%;
   }
 }
