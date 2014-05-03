@@ -61,3 +61,10 @@ bars.reach(num);  //num is the percentage at which you want to reach
 ```
 
 ### Options
+
+| Option        | Default              | Usage                                     |
+| ------------- | -------------------- | ----------------------------------------- |
+| duration      | `10000`              | The duration (in ms) needed from 0 to 100 |
+| percentage    | `0`                  | The initial percentage                    |
+| shownQuery    | `'.number-pb-shown'` | Your query string for the shown bar       |
+| numQuery      | `'.number-pb-num'`   | Your query string for the number          |
