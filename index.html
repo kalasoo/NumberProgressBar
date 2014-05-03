@@ -12,25 +12,39 @@
 <div class="container">
   <h1>Number Progress Bar</h1>
 
-  <section>
+  <section id="random">
+    <article>
+      <h4 class="title">Random</h4>
+      <div class="number-pb">
+        <div class="number-pb-shown"></div>
+        <div class="number-pb-num">0%</div>
+      </div>
+      <div class="number-pb">
+        <div class="number-pb-shown dream"></div>
+        <div class="number-pb-num">0%</div>
+      </div>
+      <div class="number-pb">
+        <div class="number-pb-shown sun"></div>
+        <div class="number-pb-num">0%</div>
+      </div>
+    </article>
+  </section>
 
-    <article id="sample-pb">
+  <section id="sample-pb">
+    <article>
       <h4 class="title"></h4>
       <div class="number-pb">
         <div class="number-pb-shown"></div>
         <div class="number-pb-num">0%</div>
       </div>
     </article>
-
-  </section>
-
-  <section>
-    <div class="reach empty">0</div>
-    <div class="reach minus-10">- 10</div>
-    <div class="reach minus-30">- 30</div>
-    <div class="reach plus-10">+ 10</div>
-    <div class="reach plus-30">+ 30</div>
-    <div class="reach full">100</div>
+    
+    <div class="control empty">0</div>
+    <div class="control minus-10">- 10</div>
+    <div class="control minus-30">- 30</div>
+    <div class="control plus-10">+ 10</div>
+    <div class="control plus-30">+ 30</div>
+    <div class="control full">100</div>
   </section>
 
   <p><a href="http://kalasoo.me">Ming YIN</a></p>
@@ -44,19 +58,33 @@
 <script src="number-pb.js"></script>
 <script>
   $(function() {
-    var num = Math.floor(Math.random() * 100);
+    function randomPercentage() {
+      return Math.floor(Math.random() * 100);
+    }
+    var loopBars = $('#random .number-pb').NumberProgressBar().each(function() {
+      $(this).reach(randomPercentage());
+    });
+    window.setInterval(function () {
+      loopBars.each(function() {
+        $(this).reach(randomPercentage()); 
+      })
+    }, 12000);
+
+    var num = randomPercentage();
     var title = $('#sample-pb .title').text('@' + num);
-    var bars = $('.number-pb').NumberProgressBar({
+    var controlBar = $('#sample-pb .number-pb').NumberProgressBar({
       duration: 12000,
       percentage: num
     });
+
+    var $controls = $('#sample-pb .control');
     
-    $('.reach.empty'   ).click(function() { animate(0)       ; })
-    $('.reach.minus-10').click(function() { animate(num - 10); })
-    $('.reach.minus-30').click(function() { animate(num - 30); })
-    $('.reach.plus-10 ').click(function() { animate(num + 10); })
-    $('.reach.plus-30 ').click(function() { animate(num + 30); })
-    $('.reach.full'    ).click(function() { animate(100)     ; })
+    $controls.filter('.empty'   ).click(function() { animate(0)       ; })
+    $controls.filter('.minus-10').click(function() { animate(num - 10); })
+    $controls.filter('.minus-30').click(function() { animate(num - 30); })
+    $controls.filter('.plus-10 ').click(function() { animate(num + 10); })
+    $controls.filter('.plus-30 ').click(function() { animate(num + 30); })
+    $controls.filter('.full'    ).click(function() { animate(100)     ; })
 
     function animate(val) {
       if (val < 0) {
@@ -66,7 +94,7 @@
       } else {
         num = val
       }
-      bars.reach(num);
+      controlBar.reach(num);
       title.text('@' + num);
     }
   });
