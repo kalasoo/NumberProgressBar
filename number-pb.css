@@ -23,3 +23,18 @@
   top: -0.45em;
   padding: 0 5px; 
 }
+
+.number-pb-shown.dream {
+  background-image: linear-gradient(to right, #0e153a, #1d2b64, #f8cdda);
+  -moz-box-shadow:    0 0 3px 0 #f8cdda;
+  -webkit-box-shadow: 0 0 3px 0 #f8cdda;
+  box-shadow:         0 0 3px 0 #f8cdda;
+}
+
+.number-pb-shown.sun {
+  background-image: linear-gradient(to right, #0f1b58, #e0a681, #e5e9bf);
+  -moz-box-shadow:    0 0 3px 0 #e5e9bf;
+  -webkit-box-shadow: 0 0 3px 0 #e5e9bf;
+  box-shadow:         0 0 3px 0 #e5e9bf;
+}
+
