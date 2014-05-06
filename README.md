@@ -3,6 +3,8 @@ NumberProgressBar
 
 > A lovely progressbar. Inspired by [daimajia](https://github.com/daimajia/NumberProgressBar).
 
+[Demo](http://kalasoo.github.io/NumberProgressBar/)
+
 ![demo](http://imageshack.com/a/img838/9281/urq.gif)
 
 
