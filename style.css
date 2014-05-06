@@ -69,4 +69,8 @@ article .title {
   .container {
     width: 90%;
   }
+
+  article {
+    padding: 0 2em;
+  }
 }
