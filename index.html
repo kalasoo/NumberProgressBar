@@ -18,15 +18,15 @@
       <h4 class="title">Random</h4>
       <div class="number-pb">
         <div class="number-pb-shown"></div>
-        <div class="number-pb-num">0%</div>
+        <div class="number-pb-num">0</div>
       </div>
       <div class="number-pb">
         <div class="number-pb-shown dream"></div>
-        <div class="number-pb-num">0%</div>
+        <div class="number-pb-num">0</div>
       </div>
       <div class="number-pb">
         <div class="number-pb-shown sun"></div>
-        <div class="number-pb-num">0%</div>
+        <div class="number-pb-num">0</div>
       </div>
     </article>
   </section>
@@ -36,7 +36,7 @@
       <h4 class="title"></h4>
       <div class="number-pb">
         <div class="number-pb-shown"></div>
-        <div class="number-pb-num">0%</div>
+        <div class="number-pb-num">0</div>
       </div>
     </article>
     
@@ -62,20 +62,16 @@
     function randomPercentage() {
       return Math.floor(Math.random() * 100);
     }
-    var loopBars = $('#random .number-pb').NumberProgressBar().each(function() {
-      $(this).reach(randomPercentage());
-    });
+    var loopBars = $('#random .number-pb').NumberProgressBar().each(function() { $(this).reach(); });
     window.setInterval(function () {
-      loopBars.each(function() {
-        $(this).reach(randomPercentage()); 
-      })
+      loopBars.each(function() { $(this).reach(); })
     }, 12000);
 
     var num = randomPercentage();
     var title = $('#sample-pb .title').text('@' + num);
     var controlBar = $('#sample-pb .number-pb').NumberProgressBar({
       duration: 12000,
-      percentage: num
+      current: num
     });
 
     var $controls = $('#sample-pb .control');

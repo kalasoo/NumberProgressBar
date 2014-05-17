@@ -2,82 +2,97 @@
   var NumberProgressBar = function(element, options) {
     var settings = $.extend ({
       duration: 10000,
-      percentage: 0,
+      min: 0,
+      max: 100,
+      current: 0,
       shownQuery: '.number-pb-shown',
       numQuery: '.number-pb-num'
     }, options || {});
 
     this.duration = settings.duration;
-    this.last_percentage = -1;
-    this.percentage = (settings.percentage >= 0 && settings.percentage <= 100) ? settings.percentage : 0;
+    if (settings.min < settings.max) {
+      this.min = settings.min;
+      this.max = settings.max;
+      this.current = (settings.current >= this.min && settings.current <= this.max) ? settings.current : this.min;
+    } else {
+      this.min = 0;
+      this.max = 100;
+      this.current = 0;
+    }
+    this.interval = this.max - this.min;
+    this.last = null;
     this.$element = $(element);
-    this.width = this.$element.width();
     this.$shownBar = this.$element.find(settings.shownQuery);
     this.$num = this.$element.find(settings.numQuery);
 
-    this.reach(this.percentage);
+    this.reach(this.current);
   }
 
-  NumberProgressBar.prototype.reach = function(percentage) {
-    if (this.last_percentage < 0) {
-      this.last_percentage = 0;
+  NumberProgressBar.prototype.calDestination = function(dest) {
+    return (dest < this.min) ? this.min : ( (dest > this.max) ? this.max : dest )
+  }
+
+  NumberProgressBar.prototype.udpateLast = function(dest) {
+    if (this.last == null) {
+      this.last = this.min;
     } else {
-      this.last_percentage = this.percentage;  
+      this.last = this.current;  
     }
-    
-    if (percentage < 0) {
-      this.percentage = 0;
-    } else if (percentage > 100) {
-      this.percentage = 100;
-    } else {
-      this.percentage = percentage;
-    }
-    console.log('reach: ', this.last_percentage, this.percentage, this.calDuration());
-    this.moveShown();
-    this.moveNum();
   }
 
   NumberProgressBar.prototype.calDuration = function() {
-    return this.duration * Math.abs(this.percentage - this.last_percentage) / 100.0;
+    return this.duration * Math.abs(this.current - this.last) / this.interval;
+  }
+
+  NumberProgressBar.prototype.shuffle = function() {
+    var dest = Math.round(Math.random() * this.interval) + this.min;
+    console.log('shuffle', dest)
+    this.reach(dest);
+  }
+
+  NumberProgressBar.prototype.reach = function(dest) {
+    this.udpateLast();
+    this.current = this.calDestination(dest);
+    this.moveShown();
+    this.moveNum();
+    console.log('reach', this.last, this.current)
   }
 
   NumberProgressBar.prototype.moveShown = function() {
-    console.log('moveShown: ', this.percentage);
     this.$shownBar.velocity({
-      width: this.percentage + '%'
+      width: (this.current / this.interval * 100) + '%'
     }, {
       duration: this.calDuration()
     })
   }
 
   NumberProgressBar.prototype.moveNum = function() {
-    console.log('moveNum: ', this.percentage);
     var self = this;
-    var left = this.width * this.percentage / 100.0;
     var numWidth = this.$num.width();
-    if (numWidth + left > this.width) {
-      var percentage = (this.width - numWidth) / this.width * 100.0;
+    var width = this.$element.width();
+    if (numWidth + width * (this.current / this.interval) > width) {
+      var percentage = (width - numWidth) / width * 100.0;
     } else {
-      var percentage = this.percentage;
+      var percentage = (this.current / this.interval) * 100;
     }
 
     this.$num.velocity({
       left: percentage + '%'
     }, {
       duration: this.calDuration()
-    })
+    });
 
     // number
     $({num: parseInt(this.$num.text())}).animate({
-      num: this.percentage
+      num: this.current
     }, {
       queue: true,
       duration: self.calDuration(),
       step: function() {
-        self.$num.text(Math.ceil(this.num) + '%');
+        self.$num.text(Math.ceil(this.num));
       },
       complete: function() {
-        self.$num.text(self.percentage + '%');
+        self.$num.text(self.current);
       }
     })
   }
@@ -90,13 +105,17 @@
     })
   }
 
-  $.fn.reach = function(percentage) {
+  $.fn.reach = function(dest) {
     return this.each(function() {
       var element = $(this);
       var progressbar = element.data('number-pb');
       if (!progressbar) return;
-      if (percentage < 0 || percentage > 100 || percentage == progressbar.percentage) return;
-      progressbar.reach(percentage);
+      if (typeof dest === "undefined") {
+        progressbar.shuffle();
+      } else {
+        if (dest < progressbar.min || dest > progressbar.max || dest == progressbar.current) return;
+        progressbar.reach(dest);
+      }
     })
   }
 
