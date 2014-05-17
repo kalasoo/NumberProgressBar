@@ -62,7 +62,21 @@
     function randomPercentage() {
       return Math.floor(Math.random() * 100);
     }
-    var loopBars = $('#random .number-pb').NumberProgressBar().each(function() { $(this).reach(); });
+
+    function randomInterval() {
+      var min = Math.floor(Math.random() * 20) - 10;
+      var max = min + (Math.floor(Math.random() * 100) + 10);
+      return [min, max];
+    }
+
+    var loopBars = $('#random .number-pb').each(function() { 
+      var interval = randomInterval();
+      console.log(interval);
+      $(this).NumberProgressBar({
+        min: interval[0],
+        max: interval[1]
+      }).reach(); 
+    });
     window.setInterval(function () {
       loopBars.each(function() { $(this).reach(); })
     }, 12000);

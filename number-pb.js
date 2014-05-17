@@ -25,6 +25,8 @@
     this.$shownBar = this.$element.find(settings.shownQuery);
     this.$num = this.$element.find(settings.numQuery);
 
+    console.log('bar', this.min, this.max, this.duration)
+
     this.reach(this.current);
   }
 
@@ -46,40 +48,39 @@
 
   NumberProgressBar.prototype.shuffle = function() {
     var dest = Math.round(Math.random() * this.interval) + this.min;
-    console.log('shuffle', dest)
     this.reach(dest);
   }
 
-  NumberProgressBar.prototype.reach = function(dest) {
+  NumberProgressBar.prototype.reach = function(dest, duration) {
     this.udpateLast();
     this.current = this.calDestination(dest);
-    this.moveShown();
-    this.moveNum();
-    console.log('reach', this.last, this.current)
+    this.moveShown(duration);
+    this.moveNum(duration);
   }
 
-  NumberProgressBar.prototype.moveShown = function() {
+  NumberProgressBar.prototype.moveShown = function(duration) {
     this.$shownBar.velocity({
-      width: (this.current / this.interval * 100) + '%'
+      width: ((this.current - this.min) / this.interval * 100) + '%'
     }, {
-      duration: this.calDuration()
+      duration: duration || this.calDuration()
     })
   }
 
-  NumberProgressBar.prototype.moveNum = function() {
+  NumberProgressBar.prototype.moveNum = function(duration) {
     var self = this;
+    var duration = duration || this.calDuration();
     var numWidth = this.$num.width();
     var width = this.$element.width();
     if (numWidth + width * (this.current / this.interval) > width) {
       var percentage = (width - numWidth) / width * 100.0;
     } else {
-      var percentage = (this.current / this.interval) * 100;
+      var percentage = ((this.current - this.min) / this.interval) * 100;
     }
 
     this.$num.velocity({
       left: percentage + '%'
     }, {
-      duration: this.calDuration()
+      duration: duration
     });
 
     // number
@@ -87,7 +88,7 @@
       num: this.current
     }, {
       queue: true,
-      duration: self.calDuration(),
+      duration: duration,
       step: function() {
         self.$num.text(Math.ceil(this.num));
       },
@@ -105,7 +106,7 @@
     })
   }
 
-  $.fn.reach = function(dest) {
+  $.fn.reach = function(dest, duration) {
     return this.each(function() {
       var element = $(this);
       var progressbar = element.data('number-pb');
@@ -114,7 +115,7 @@
         progressbar.shuffle();
       } else {
         if (dest < progressbar.min || dest > progressbar.max || dest == progressbar.current) return;
-        progressbar.reach(dest);
+        progressbar.reach(dest, duration);
       }
     })
   }
