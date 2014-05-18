@@ -25,8 +25,6 @@
     this.$shownBar = this.$element.find(settings.shownQuery);
     this.$num = this.$element.find(settings.numQuery);
 
-    console.log('bar', this.min, this.max, this.duration)
-
     this.reach(this.current);
   }
 
