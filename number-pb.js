@@ -20,7 +20,7 @@
       this.current = 0;
     }
     this.interval = this.max - this.min;
-    this.last = null;
+    this.last = this.min;
     this.$element = $(element);
     this.$shownBar = this.$element.find(settings.shownQuery);
     this.$num = this.$element.find(settings.numQuery);
@@ -30,14 +30,6 @@
 
   NumberProgressBar.prototype.calDestination = function(dest) {
     return (dest < this.min) ? this.min : ( (dest > this.max) ? this.max : dest )
-  }
-
-  NumberProgressBar.prototype.udpateLast = function(dest) {
-    if (this.last == null) {
-      this.last = this.min;
-    } else {
-      this.last = this.current;  
-    }
   }
 
   NumberProgressBar.prototype.calDuration = function() {
@@ -54,10 +46,10 @@
   }
 
   NumberProgressBar.prototype.reach = function(dest, duration, callback) {
-    this.udpateLast();
     this.current = this.calDestination(dest);
     this.moveShown(duration);
     this.moveNum(duration, callback);
+    this.last = this.current;
   }
 
   NumberProgressBar.prototype.moveShown = function(duration) {
