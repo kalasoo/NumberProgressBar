@@ -58,15 +58,16 @@ You can refer to the file `number-pb.css` and make your own modifications.
 ##### javaScript
 
 ```javascript
-var bars = $('.number-pb').NumberProgressBar(options);
-bars.reach(num);      //num is the progress # at which you want to reach
-bars.reach();         //if num is not provided, this bar will reach a random place
-bars.reach(num, 1000) //the second argument is the duration of this animation in (ms)
+var bars = $('.number-pb').NumberProgressBar(barOptions);
+bars.reach(dest, reachOptions);  //dest is the progress # at which you want to reach
 ```
 
 
-
 ### Options
+
+#### barOptions
+
+These are the options you can configure when initializing a progressbar.
 
 | Option        | Default              | Usage                                     |
 | ------------- | -------------------- | ----------------------------------------- |
@@ -76,3 +77,12 @@ bars.reach(num, 1000) //the second argument is the duration of this animation in
 | current       | `0`                  | The initial # of the progress             |
 | shownQuery    | `'.number-pb-shown'` | Your query string for the shown bar       |
 | numQuery      | `'.number-pb-num'`   | Your query string for the number          |
+
+#### reachOptions
+
+These are the options for each reach operation: `bar.reach(dest, reachOptions)`.
+
+| Option        | Default              | Usage                                       |
+| ------------- | -------------------- | ------------------------------------------- |
+| duration      | `null`               | The duration for a reach operation.         |
+| complete      | `null`               | The callback when a reach operation is done.|
