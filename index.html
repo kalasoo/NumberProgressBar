@@ -20,14 +20,6 @@
         <div class="number-pb-shown"></div>
         <div class="number-pb-num">0</div>
       </div>
-      <div class="number-pb">
-        <div class="number-pb-shown dream"></div>
-        <div class="number-pb-num">0</div>
-      </div>
-      <div class="number-pb">
-        <div class="number-pb-shown sun"></div>
-        <div class="number-pb-num">0</div>
-      </div>
     </article>
   </section>
 
@@ -64,25 +56,36 @@
     }
 
     function randomInterval() {
-      var min = Math.floor(Math.random() * 20) - 10;
+      var min = Math.floor(Math.random() * 100) - 100;
       var max = min + (Math.floor(Math.random() * 100) + 10);
       return [min, max];
     }
 
-    var loopBars = $('#random .number-pb').each(function() { 
-      var interval = randomInterval();
-      console.log(interval);
-      $(this).NumberProgressBar({
+    function randomStyle() {
+      return ['', 'dream', 'sun'][Math.floor(Math.random() * 3)];
+    }
+
+    var interval = randomInterval();
+    var randomTitle = $('#random .title');
+    var randomBar = $('#random .number-pb').NumberProgressBar({
         min: interval[0],
         max: interval[1]
-      }).reach(); 
-    });
-    window.setInterval(function () {
-      loopBars.each(function() { $(this).reach(); })
-    }, 12000);
+      })
+    randomBar.find('.number-pb-shown').toggleClass(randomStyle());
+    randomTitle.text('Random [Min: ' + interval[0] + ', Max: ' + interval[1] + ']');
+
+    var reachLoop = function() {
+      window.setTimeout(function() {
+        randomBar.reach(undefined, {
+          complete: reachLoop
+        }).find('.number-pb-shown').toggleClass(randomStyle());
+      }, 2000);
+    }
+
+    reachLoop();
 
     var num = randomPercentage();
-    var title = $('#sample-pb .title').text('@' + num);
+    var controlTitle = $('#sample-pb .title').text('@' + num);
     var controlBar = $('#sample-pb .number-pb').NumberProgressBar({
       duration: 12000,
       current: num
@@ -106,7 +109,7 @@
         num = val
       }
       controlBar.reach(num);
-      title.text('@' + num);
+      controlTitle.text('@' + num);
     }
   });
 </script>

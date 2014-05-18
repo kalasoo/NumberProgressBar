@@ -44,45 +44,43 @@
     return this.duration * Math.abs(this.current - this.last) / this.interval;
   }
 
-  NumberProgressBar.prototype.shuffle = function() {
+  NumberProgressBar.prototype.shuffle = function(callback) {
     var dest = Math.round(Math.random() * this.interval) + this.min;
-    this.reach(dest);
+    this.reach(dest, null, callback);
   }
 
-  NumberProgressBar.prototype.reach = function(dest, duration) {
+  NumberProgressBar.prototype.calPercentage = function() {
+    return (this.current - this.min) / this.interval * 100
+  }
+
+  NumberProgressBar.prototype.reach = function(dest, duration, callback) {
     this.udpateLast();
     this.current = this.calDestination(dest);
     this.moveShown(duration);
-    this.moveNum(duration);
+    this.moveNum(duration, callback);
   }
 
   NumberProgressBar.prototype.moveShown = function(duration) {
     this.$shownBar.velocity({
-      width: ((this.current - this.min) / this.interval * 100) + '%'
+      width: this.calPercentage() + '%'
     }, {
       duration: duration || this.calDuration()
     })
   }
 
-  NumberProgressBar.prototype.moveNum = function(duration) {
+  NumberProgressBar.prototype.moveNum = function(duration, callback) {
     var self = this;
     var duration = duration || this.calDuration();
-    var numWidth = this.$num.width();
-    var width = this.$element.width();
-    if (numWidth + width * (this.current / this.interval) > width) {
-      var percentage = (width - numWidth) / width * 100.0;
-    } else {
-      var percentage = ((this.current - this.min) / this.interval) * 100;
-    }
 
     this.$num.velocity({
-      left: percentage + '%'
+      left: this.calPercentage() + '%'
     }, {
-      duration: duration
+      duration: duration,
+      complete: callback
     });
 
     // number
-    $({num: parseInt(this.$num.text())}).animate({
+    $({num: this.last}).animate({
       num: this.current
     }, {
       queue: true,
@@ -104,16 +102,19 @@
     })
   }
 
-  $.fn.reach = function(dest, duration) {
+  $.fn.reach = function(dest, options) {
+    var settings = $.extend ({
+      duration : null,
+      complete : null
+    }, options || {});
     return this.each(function() {
       var element = $(this);
       var progressbar = element.data('number-pb');
       if (!progressbar) return;
       if (typeof dest === "undefined") {
-        progressbar.shuffle();
+        progressbar.shuffle(settings.complete);
       } else {
-        if (dest < progressbar.min || dest > progressbar.max || dest == progressbar.current) return;
-        progressbar.reach(dest, duration);
+        progressbar.reach(dest, settings.duration, settings.complete);
       }
     })
   }
