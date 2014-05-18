@@ -59,14 +59,20 @@ You can refer to the file `number-pb.css` and make your own modifications.
 
 ```javascript
 var bars = $('.number-pb').NumberProgressBar(options);
-bars.reach(num);  //num is the percentage at which you want to reach
+bars.reach(num);      //num is the progress # at which you want to reach
+bars.reach();         //if num is not provided, this bar will reach a random place
+bars.reach(num, 1000) //the second argument is the duration of this animation in (ms)
 ```
+
+
 
 ### Options
 
 | Option        | Default              | Usage                                     |
 | ------------- | -------------------- | ----------------------------------------- |
 | duration      | `10000`              | The duration (in ms) needed from 0 to 100 |
-| percentage    | `0`                  | The initial percentage                    |
+| min           | `0`                  | The min # of the progress                 |
+| max           | `100`                | The max # of the progress                 |
+| current       | `0`                  | The initial # of the progress             |
 | shownQuery    | `'.number-pb-shown'` | Your query string for the shown bar       |
 | numQuery      | `'.number-pb-num'`   | Your query string for the number          |
