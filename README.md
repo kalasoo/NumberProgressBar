@@ -12,6 +12,7 @@ NumberProgressBar [Demo](http://kalasoo.github.io/NumberProgressBar/)
   - [ ] Numerator / denominator
   - [ ] negative number
   - [ ] customizable
+- [ ] Fix bug of multiple reach operations
 - [ ] Add color option
 
 
