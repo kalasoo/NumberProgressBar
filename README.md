@@ -7,7 +7,11 @@ NumberProgressBar [Demo](http://kalasoo.github.io/NumberProgressBar/)
 
 ### To-do List
 
-[ ]
+- [ ] Support multiple number styles
+  - [ ] percentage
+  - [ ] Numerator / denominator
+  - [ ] negative number
+  - [ ] customizable
 
 ### Installation
 
