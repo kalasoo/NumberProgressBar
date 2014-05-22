@@ -71,6 +71,10 @@
       return [min, max];
     }
 
+    function randomStep () {
+      return Math.floor(Math.random() * 10) + 5;
+    }
+
     // setup
     var $basic = $('#basic');
     var interval = randomInterval();
@@ -85,10 +89,13 @@
       style: 'percentage'
     })
 
+    var $step = $('#step');
+    var maxStep = randomStep()
     var stepBar = $('#step .number-pb').NumberProgressBar({
       style: 'step',
-      max: randomPercentage()
+      max: maxStep
     })
+    $step.find('.title span').text('[Max step: ' + maxStep + ']');
 
     // loop
     var basicLoop = function() {
