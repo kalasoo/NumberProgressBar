@@ -8,8 +8,8 @@ NumberProgressBar [Demo](http://kalasoo.github.io/NumberProgressBar/)
 ### To-do List
 
 - [ ] Support multiple number styles
-  - [ ] percentage
-  - [ ] Numerator / denominator
+  - [x] percentage
+  - [x] Numerator / denominator
   - [ ] negative number
   - [ ] customizable
 - [ ] Fix bug of multiple reach operations
@@ -25,6 +25,7 @@ bower install NumberProgressBar [--save]
 ### Usage
 
 ##### HTML
+
 ```HTML
 <div class="number-pb">
   <div class="number-pb-shown"></div>
@@ -66,7 +67,21 @@ You can refer to the file `number-pb.css` and make your own modifications.
 ##### javaScript
 
 ```javascript
-var bars = $('.number-pb').NumberProgressBar(barOptions);
+var basicBar = $basic.find('.number-pb').NumberProgressBar({
+  style: 'basic',
+  min: A_MIN_NUMBER,
+  max: A_MAX_NUMBER
+})
+var percentageBar = $('#percentage .number-pb').NumberProgressBar({
+  style: 'percentage'  
+})
+var stepBar = $('#step .number-pb').NumberProgressBar({
+  style: 'step',
+  max: maxStep
+})
+/* For stepBar:
+   min is set to 0 automatically,
+   max is supposed to be > 0 */
 bars.reach(dest, reachOptions);  //dest is the progress # at which you want to reach
 ```
 
@@ -79,6 +94,7 @@ These are the options you can configure when initializing a progressbar.
 
 | Option        | Default              | Usage                                     |
 | ------------- | -------------------- | ----------------------------------------- |
+| style         | `basic`              | [`basic`, `percentage`, `step`]           |
 | duration      | `10000`              | The duration (in ms) needed from 0 to 100 |
 | min           | `0`                  | The min # of the progress                 |
 | max           | `100`                | The max # of the progress                 |
