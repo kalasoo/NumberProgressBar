@@ -13,9 +13,9 @@
 <div class="container">
   <h1>Number Progress Bar</h1>
 
-  <section id="random">
+  <section id="basic">
     <article>
-      <h4 class="title">Random</h4>
+      <h4 class="title">Basic <span></span></h4>
       <div class="number-pb">
         <div class="number-pb-shown"></div>
         <div class="number-pb-num">0</div>
@@ -23,21 +23,24 @@
     </article>
   </section>
 
-  <section id="sample-pb">
+  <section id="percentage">
     <article>
-      <h4 class="title"></h4>
+      <h4 class="title">Percentage <span></span></h4>
       <div class="number-pb">
-        <div class="number-pb-shown"></div>
-        <div class="number-pb-num">0</div>
+        <div class="number-pb-shown dream"></div>
+        <div class="number-pb-num">0%</div>
       </div>
     </article>
-    
-    <div class="control empty">0</div>
-    <div class="control minus-10">-10</div>
-    <div class="control minus-30">-30</div>
-    <div class="control plus-10">+10</div>
-    <div class="control plus-30">+30</div>
-    <div class="control full">100</div>
+  </section>
+
+  <section id="step">
+    <article>
+      <h4 class="title">Step <span></span></h4>
+      <div class="number-pb">
+        <div class="number-pb-shown sun"></div>
+        <div class="number-pb-num">0/0</div>
+      </div>
+    </article>
   </section>
 
   <p><a href="http://kalasoo.me">Ming YIN</a></p>
@@ -63,61 +66,51 @@
     }
 
     function randomInterval() {
-      var min = Math.floor(Math.random() * 100);
-      var max = min + (Math.floor(Math.random() * 40) + 20);
+      var min = Math.floor(Math.random() * 30);
+      var max = min + (Math.floor(Math.random() * 40) + 70);
       return [min, max];
     }
 
-    function randomStyle() {
-      return ['', 'dream', 'sun'][Math.floor(Math.random() * 3)];
-    }
-
+    // setup
+    var $basic = $('#basic');
     var interval = randomInterval();
-    var randomTitle = $('#random .title');
-    var randomBar = $('#random .number-pb').NumberProgressBar({
-        min: interval[0],
-        max: interval[1]
-      })
-    randomBar.find('.number-pb-shown').toggleClass(randomStyle());
-    randomTitle.text('Random [Min: ' + interval[0] + ', Max: ' + interval[1] + ']');
+    var basicBar = $basic.find('.number-pb').NumberProgressBar({
+      style: 'basic',
+      min: interval[0],
+      max: interval[1]
+    })
+    $basic.find('.title span').text('[Min: ' + interval[0] + ', Max: ' + interval[1] + ']');
 
-    var reachLoop = function() {
-      window.setTimeout(function() {
-        randomBar.reach(undefined, {
-          complete: reachLoop
-        }).find('.number-pb-shown').toggleClass(randomStyle());
-      }, 2000);
+    var percentageBar = $('#percentage .number-pb').NumberProgressBar({
+      style: 'percentage'
+    })
+
+    var stepBar = $('#step .number-pb').NumberProgressBar({
+      style: 'step',
+      max: randomPercentage()
+    })
+
+    // loop
+    var basicLoop = function() {
+      basicBar.reach(undefined, {
+        complete: percentageLoop
+      });
     }
 
-    reachLoop();
-
-    var num = randomPercentage();
-    var controlTitle = $('#sample-pb .title').text('@' + num);
-    var controlBar = $('#sample-pb .number-pb').NumberProgressBar({
-      duration: 12000,
-      current: num
-    });
-
-    var $controls = $('#sample-pb .control');
-    
-    $controls.filter('.empty'   ).click(function() { animate(0)       ; })
-    $controls.filter('.minus-10').click(function() { animate(num - 10); })
-    $controls.filter('.minus-30').click(function() { animate(num - 30); })
-    $controls.filter('.plus-10 ').click(function() { animate(num + 10); })
-    $controls.filter('.plus-30 ').click(function() { animate(num + 30); })
-    $controls.filter('.full'    ).click(function() { animate(100)     ; })
-
-    function animate(val) {
-      if (val < 0) {
-        num = 0;
-      } else if (val > 100) {
-        num = 100;
-      } else {
-        num = val
-      }
-      controlBar.reach(num);
-      controlTitle.text('@' + num);
+    var percentageLoop = function() {
+      percentageBar.reach(undefined, {
+        complete: stepLoop
+      });
     }
+
+    var stepLoop = function() {
+      stepBar.reach(undefined, {
+        complete: basicLoop
+      });
+    }
+
+    // start
+    basicLoop();
   });
 </script>
 </body>

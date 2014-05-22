@@ -2,6 +2,7 @@
   var NumberProgressBar = function(element, options) {
     var settings = $.extend ({
       duration: 10000,
+      style: 'basic',
       min: 0,
       max: 100,
       current: 0,
@@ -10,15 +11,25 @@
     }, options || {});
 
     this.duration = settings.duration;
-    if (settings.min < settings.max) {
-      this.min = settings.min;
-      this.max = settings.max;
-      this.current = (settings.current >= this.min && settings.current <= this.max) ? settings.current : this.min;
+    if (settings.style == 'percentage') {
+      this.style = 'percentage';
+      this.min   = 0;
+      this.max   = 100;
+    } else if (settings.style == 'step') {
+      this.style = 'step';
+      this.min   = 0;
+      this.max   = (settings.max > this.min) ? settings.max : 100;
     } else {
-      this.min = 0;
-      this.max = 100;
-      this.current = 0;
+      this.style = 'basic';
+      if (settings.min < settings.max) {
+        this.min = settings.min;
+        this.max = settings.max;
+      } else {
+        this.min = 0;
+        this.max = 100;
+      }
     }
+    this.current = (settings.current >= this.min && settings.current <= this.max) ? settings.current : this.min;
     this.interval = this.max - this.min;
     this.last = this.min;
     this.$element = $(element);
@@ -43,6 +54,17 @@
 
   NumberProgressBar.prototype.calPercentage = function() {
     return (this.current - this.min) / this.interval * 100
+  }
+
+  NumberProgressBar.prototype.numStyle = function(num) {
+    var n = Math.ceil(num);
+    var s = "";
+    switch (this.style) {
+      case 'percentage': s = n + '%';            break;
+      case 'step'      : s = n + '/' + this.max; break;
+      default          : s = n;
+    }
+    return s;
   }
 
   NumberProgressBar.prototype.reach = function(dest, duration, callback) {
@@ -78,10 +100,10 @@
       queue: true,
       duration: duration,
       step: function() {
-        self.$num.text(Math.ceil(this.num));
+        self.$num.text(self.numStyle(this.num));
       },
       complete: function() {
-        self.$num.text(self.current);
+        self.$num.text(self.numStyle(self.current));
       }
     })
   }
