@@ -72,10 +72,10 @@ var basicBar = $basic.find('.number-pb').NumberProgressBar({
   min: A_MIN_NUMBER,
   max: A_MAX_NUMBER
 })
-var percentageBar = $('#percentage .number-pb').NumberProgressBar({
+var percentageBar = $('.number-pb').NumberProgressBar({
   style: 'percentage'  
 })
-var stepBar = $('#step .number-pb').NumberProgressBar({
+var stepBar = $('.number-pb').NumberProgressBar({
   style: 'step',
   max: maxStep
 })
