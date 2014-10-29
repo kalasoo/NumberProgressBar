@@ -9,7 +9,8 @@ NumberProgressBar [Demo](http://kalasoo.github.io/NumberProgressBar/)
 
 - [ ] Support multiple number styles
   - [x] percentage
-  - [x] Numerator / denominator
+  - [x] numerator / denominator
+  - [x] reverse
   - [ ] negative number
   - [ ] customizable
 - [ ] Fix bug of multiple reach operations
@@ -98,6 +99,7 @@ These are the options you can configure when initializing a progressbar.
 | duration      | `10000`              | The duration (in ms) needed from 0 to 100 |
 | min           | `0`                  | The min # of the progress                 |
 | max           | `100`                | The max # of the progress                 |
+| reverse       | `false`              | If `true`, count down progress            |
 | current       | `0`                  | The initial # of the progress             |
 | shownQuery    | `'.number-pb-shown'` | Your query string for the shown bar       |
 | numQuery      | `'.number-pb-num'`   | Your query string for the number          |
