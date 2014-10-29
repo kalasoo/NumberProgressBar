@@ -78,12 +78,18 @@
     // setup
     var $basic = $('#basic');
     var interval = randomInterval();
+    var reverse = Math.random() >= 0.5;
     var basicBar = $basic.find('.number-pb').NumberProgressBar({
       style: 'basic',
       min: interval[0],
-      max: interval[1]
+      max: interval[1],
+      reverse: reverse
     })
-    $basic.find('.title span').text('[Min: ' + interval[0] + ', Max: ' + interval[1] + ']');
+    if (reverse) {
+      $basic.find('.title span').text('[Max: ' + interval[1] + ', Min: ' + interval[0] + '] - Reverse');
+    } else {
+      $basic.find('.title span').text('[Min: ' + interval[0] + ', Max: ' + interval[1] + ']');
+    }
 
     var percentageBar = $('#percentage .number-pb').NumberProgressBar({
       style: 'percentage'

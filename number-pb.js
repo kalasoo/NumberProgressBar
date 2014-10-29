@@ -6,36 +6,44 @@
       min: 0,
       max: 100,
       current: 0,
+      reverse: false,
       shownQuery: '.number-pb-shown',
       numQuery: '.number-pb-num'
     }, options || {});
 
     this.duration = settings.duration;
-    if (settings.style == 'percentage') {
-      this.style = 'percentage';
-      this.min   = 0;
-      this.max   = 100;
-    } else if (settings.style == 'step') {
-      this.style = 'step';
-      this.min   = 0;
-      this.max   = (settings.max > this.min) ? settings.max : 100;
-    } else {
-      this.style = 'basic';
-      if (settings.min < settings.max) {
-        this.min = settings.min;
-        this.max = settings.max;
-      } else {
+    switch(settings.style) {
+      case 'percentage':
+        this.style = 'percentage';
         this.min = 0;
         this.max = 100;
-      }
+        break;
+      case 'step':
+        this.style = 'step';
+        this.min = 0;
+        this.max = (settings.max > this.min) ? settings.max : 100;
+        break;
+      default:
+        this.style = 'basic';
+        this.reverse = settings.reverse;
+        if (settings.min < settings.max) {
+          this.min = settings.min;
+          this.max = settings.max;
+        } else {
+          this.min = 0;
+          this.max = 100;
+        }
     }
-    this.current = (settings.current >= this.min && settings.current <= this.max) ? settings.current : this.min;
+    if (settings.current >= this.min && settings.current <= this.max) {
+      this.current = settings.current;
+    } else {
+      this.current = this.reverse ? this.max : this.min;
+    }
     this.interval = this.max - this.min;
-    this.last = this.min;
+    this.last = this.reverse ? this.max : this.min;
     this.$element = $(element);
     this.$shownBar = this.$element.find(settings.shownQuery);
     this.$num = this.$element.find(settings.numQuery);
-
     this.reach(this.current);
   }
 
@@ -53,7 +61,11 @@
   }
 
   NumberProgressBar.prototype.calPercentage = function() {
-    return (this.current - this.min) / this.interval * 100
+    if (this.reverse) {
+      return Math.abs(this.current - this.max) / this.interval * 100;
+    } else {
+      return (this.current - this.min) / this.interval * 100;
+    }
   }
 
   NumberProgressBar.prototype.numStyle = function(num) {
